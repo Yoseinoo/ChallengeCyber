@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  php_apache:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/var/www/html
+      - ./sensitive.txt:/home/data/sensitive.txt
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: db_cyber
+      MYSQL_DATABASE: db_cyber
+      MYSQL_USER: db_cyber
+      MYSQL_PASSWORD: db_cyber
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./sql_init:/docker-entrypoint-initdb.d
+
